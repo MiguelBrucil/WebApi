@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private void ConsumirApi () {
 
         String pro = "https://ejemplo2apimovil20240128220859.azurewebsites.net/api/Operaciones?a=" + edNum1.getText() + "&b=" + edNum2.getText();
+        //String pro = "http://192.168.10.101/ws/webapi.php?op=validar&usuario="+edNum1.getText()+"&contrasenia="+edNum2.getText();
         OkHttpClient cliente=new OkHttpClient();
 
         Request get=new Request.Builder().url(pro).build();
