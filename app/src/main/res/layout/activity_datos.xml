@@ -6,15 +6,129 @@
     android:layout_height="match_parent"
     tools:context=".registro">
 
+    <LinearLayout
+        android:layout_width="410dp"
+        android:layout_height="764dp"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="81dp"
+            android:text="CONSULTA DE HORARIO DE VIAJE"
+            android:textColor="#3C2E2E"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="37dp"
+            android:background="@drawable/cell_shape"
+            tools:ignore="MissingConstraints">
+
+            <!-- Columna 1 -->
+
+            <!-- Columna 2 -->
+            <TextView
+                android:id="@+id/columna1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="N°"
+                android:textAlignment="center" />
+
+            <!-- Columna 3 -->
+            <TextView
+                android:id="@+id/columna2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="SALIDA"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/columna3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="LLEGADA"
+                android:textAlignment="center" />
+
+            <!-- Columna 4 -->
+
+            <TextView
+                android:id="@+id/columna4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="FECHA SALIDA"
+                android:textAlignment="center" />
+
+            <!-- Columna 5 -->
+            <TextView
+                android:id="@+id/columna5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="FECHA LLEGADA"
+                android:textAlignment="center" />
+
+            <!-- Columna 6 -->
+            <TextView
+                android:id="@+id/columna6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="PRECIO"
+                android:textAlignment="center" />
+
+        </TableRow>
+
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:stretchColumns="*"
+            tools:ignore="MissingConstraints" />
+
+    </LinearLayout>
     <TextView
-        android:id="@+id/registroTextView"
-        android:layout_width="374dp"
-        android:layout_height="181dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.473"
-        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/textViewHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#333333"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="TEACH TRAVEL SOLUTIONS"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="-3dp" />
+
+    <TextView
+        android:id="@+id/textViewFooter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="764dp"
+        android:background="#333333"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Derechos de autor 2024 | BRUCIL M. ORMAZA P."
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.332" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

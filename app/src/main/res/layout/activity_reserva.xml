@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".Reserva">
 
     <!-- Encabezado -->
     <TextView
@@ -15,14 +17,25 @@
         android:textStyle="bold"
         android:background="#333333"
         android:padding="20dp"
-        android:gravity="center" />
+        android:gravity="center"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Contenedor principal -->
+
+    <!-- Pie de página -->
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="658dp"
-        android:layout_below="@id/textViewHeader"
-        android:padding="20dp">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/textViewFooter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewHeader"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="MissingConstraints">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -47,15 +60,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:text="Ida y Vuelta"
-                    android:layout_marginLeft="20dp" />
+                    android:layout_marginLeft="20dp"
+                    android:text="Ida y Vuelta" />
             </LinearLayout>
 
+            <!-- Dropdown para rango de pasajeros -->
+            <Spinner
+                android:id="@+id/spinnerRangoPasajeros"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="20dp"
+                android:entries="@array/rango_pasajeros" />
 
 
-
-
-            <!-- Contenedores para control de cantidad de pasajeros -->
             <LinearLayout
                 android:id="@+id/containerNiño"
                 android:layout_width="match_parent"
@@ -90,20 +107,26 @@
                 android:hint="TOTAL" />
 
             <Spinner
-                android:id="@+id/spinnerClaseVuelo"
+                android:id="@+id/spinnerRango"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:layout_marginTop="20dp"
-                android:entries="@array/clases_vuelo" />
+                android:entries="@array/rango_pasajeros" />
 
-            <!-- Inputs para información del pasajero -->
 
+            <!-- Contenedores para control de cantidad de pasajeros -->
             <EditText
                 android:id="@+id/editTextCedula"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:hint="Cédula" />
+
+            <Button
+                android:id="@+id/buttonCon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Consultar" />
 
             <EditText
                 android:id="@+id/editTextCedula3"
@@ -127,6 +150,15 @@
                 android:hint="TELEFONO " />
 
             <Spinner
+                android:id="@+id/spinnerClaseVuelo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:entries="@array/clases_vuelo" />
+
+            <!-- Inputs para información del pasajero -->
+
+            <Spinner
                 android:id="@+id/spinnerClaseVuelo2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -136,13 +168,6 @@
             <!-- Otros inputs y elementos de la interfaz según sea necesario -->
 
             <!-- Botones para acciones -->
-
-            <Spinner
-                android:id="@+id/spinnerClaseVuelo3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:entries="@array/clases_vuelo" />
 
             <EditText
                 android:id="@+id/editTextCedula2"
@@ -158,32 +183,10 @@
                 android:layout_marginTop="20dp"
                 android:hint="TOTAL A CANCELAR" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/buttonGuardar"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Guardar" />
-
-                <Button
-                    android:id="@+id/buttonDescargar"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Descargar" />
-            </LinearLayout>
-
         </LinearLayout>
 
     </ScrollView>
 
-    <!-- Pie de página -->
     <TextView
         android:id="@+id/textViewFooter"
         android:layout_width="match_parent"
@@ -194,6 +197,11 @@
         android:background="#333333"
         android:padding="10dp"
         android:gravity="center"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-</RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

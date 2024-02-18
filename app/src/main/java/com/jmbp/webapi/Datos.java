@@ -2,59 +2,119 @@ package com.jmbp.webapi;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class Datos extends AppCompatActivity {
-    private TextView registroTextView;
+    private TableLayout tablaDatos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_datos);
 
-        registroTextView = findViewById(R.id.registroTextView);
+        tablaDatos = findViewById(R.id.tableLayout);
 
-        // Llamando al método para realizar la solicitud al servicio web
-        new ConsultarRegistroTask().execute("http://192.168.10.101/ws/webapi.php?op=lista");
+        consumirApi();
     }
 
-    private class ConsultarRegistroTask extends AsyncTask<String, Void, String> {
+    private void consumirApi() {
+        String url = "http://192.168.10.114/webPRO/webapi.php?op=lista";
+        OkHttpClient cliente = new OkHttpClient();
+        Request get = new Request.Builder().url(url).build();
 
-        @Override
-        protected String doInBackground(String... urls) {
-            String resultado = "";
-            OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder()
-                    .url(urls[0])
-                    .build();
-            try {
-                Response response = client.newCall(request).execute();
-                if (response.isSuccessful()) {
-                    resultado = response.body().string();
-                } else {
-                    resultado = "Error: " + response.code() + " " + response.message();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                resultado = "Error: " + e.getMessage();
+        cliente.newCall(get).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                mostrarMensaje("Fallo la conexión");
             }
-            return resultado;
-        }
 
-        @Override
-        protected void onPostExecute(String resultado) {
-            super.onPostExecute(resultado);
-            // Mostrar el resultado en el TextView
-            registroTextView.setText(resultado);
-            // Puedes realizar cualquier otro procesamiento necesario con el resultado aquí
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    ResponseBody responseBody = response.body();
+                    if (response.isSuccessful()) {
+                        final String datos = responseBody.string().trim();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mostrarDatosEnTabla(datos);
+                            }
+                        });
+                    } else {
+                        throw new IOException("Respuesta inesperada" + response);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void mostrarDatosEnTabla(String datos) {
+        // Limpiamos la tabla antes de agregar nuevos datos
+        tablaDatos.removeAllViews();
+
+        try {
+            // Eliminamos los corchetes "[" y "]" alrededor de los datos
+            datos = datos.substring(1, datos.length() - 1);
+
+            // Dividimos los datos en objetos JSON individuales
+            String[] objetosJson = datos.split("\\},\\{");
+
+            for (String objetoJson : objetosJson) {
+                // Si es el primer objeto, agregamos el corchete inicial "{"
+                if (objetoJson.startsWith("{")) {
+                    objetoJson = objetoJson.substring(1);
+                }
+                // Si es el último objeto, eliminamos el corchete final "}"
+                if (objetoJson.endsWith("}")) {
+                    objetoJson = objetoJson.substring(0, objetoJson.length() - 1);
+                }
+
+                // Creamos una nueva fila para cada objeto JSON
+                TableRow row = new TableRow(this);
+
+                // Dividimos los atributos del objeto JSON en pares clave-valor
+                String[] atributos = objetoJson.split(",");
+                for (String atributo : atributos) {
+                    // Eliminamos las comillas alrededor de las claves y los valores
+                    atributo = atributo.trim().replaceAll("[\"{}]", "");
+
+                    // Dividimos el par clave-valor y mostramos solo el valor
+                    String[] par = atributo.split(":");
+                    if (par.length == 2) {
+                        TextView textView = new TextView(this);
+                        textView.setText(par[1].trim());
+                        // Puedes ajustar la configuración del TextView según sea necesario
+                        TableRow.LayoutParams params = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+                        params.setMargins(5, 5, 5, 5); // Márgenes entre celdas
+                        textView.setLayoutParams(params);
+                        row.addView(textView);
+                    }
+                }
+                // Agregamos la fila a la tabla
+                tablaDatos.addView(row);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarMensaje("Error al procesar los datos");
         }
+    }
+
+    private void mostrarMensaje(String mensaje) {
+        Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
     }
 }

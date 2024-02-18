@@ -4,18 +4,133 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login">
+    tools:context=".Login"
+    tools:layout_editor_absoluteX="-4dp"
+    tools:layout_editor_absoluteY="63dp">
 
-    <TextView
-        android:id="@+id/registroTextView"
-        android:layout_width="374dp"
-        android:layout_height="181dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.473"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.332" />
+
+    <LinearLayout
+        android:layout_width="417dp"
+        android:layout_height="794dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="-6dp"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:id="@+id/txtConsumoApis"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="                        DATOS PERSONALES"
+            android:textColor="#00BCD4"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edV1"
+            android:layout_width="358dp"
+            android:layout_height="56dp"
+            android:ems="10"
+            android:hint="CEDULA"
+            android:inputType="text"
+            android:text=""
+            android:textColor="#FBF9F9" />
+
+        <EditText
+            android:id="@+id/edV2"
+            android:layout_width="360dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="NOMBRE"
+            android:inputType="text"
+            android:text=""
+            android:textColor="#FBF9F9" />
+
+        <EditText
+            android:id="@+id/edV3"
+            android:layout_width="358dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="APELLIDO"
+            android:inputType="text"
+            android:text=""
+            android:textColor="#FBF9F9" />
+
+        <EditText
+            android:id="@+id/edV4"
+            android:layout_width="362dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="FECHA NACIMIENTO"
+            android:inputType="text"
+            android:text=""
+            android:textColor="#FBF9F9" />
+
+        <Button
+            android:id="@+id/btnCalendario"
+            android:layout_width="358dp"
+            android:layout_height="wrap_content"
+            android:onClick="ABRECALENDARIO"
+            android:text="ABRIR CALENDARIO"
+            android:textAllCaps="false" />
+
+        <EditText
+            android:id="@+id/edV5"
+            android:layout_width="366dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="TELEFONO"
+            android:inputType="text"
+            android:text=""
+            android:textColor="#FBF9F9" />
+
+        <EditText
+            android:id="@+id/edV6"
+            android:layout_width="364dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="CORREO ELECTRONICO"
+            android:inputType="text"
+            android:text=""
+            android:textColor="#FBF9F9" />
+
+        <EditText
+            android:id="@+id/edV7"
+            android:layout_width="360dp"
+            android:layout_height="55dp"
+            android:ems="10"
+            android:hint="USUARIO"
+            android:inputType="text"
+            android:text=""
+            android:textColor="#FBF9F9" />
+
+        <EditText
+            android:id="@+id/edV8"
+            android:layout_width="362dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="CONTRASEÑA"
+            android:inputType="text"
+            android:text=""
+            android:textColor="#FBF9F9" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="360dp"
+            android:layout_height="wrap_content"
+            android:text="REGISTRAR" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="360dp"
+            android:layout_height="wrap_content"
+            android:onClick="onClickBtn3"
+            android:text="SALIR" />
+
+        <TextView
+            android:id="@+id/txtREs2"
+            android:layout_width="262dp"
+            android:layout_height="24dp" />
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
