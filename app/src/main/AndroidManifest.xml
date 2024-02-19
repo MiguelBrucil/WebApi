@@ -22,9 +22,6 @@
             android:name=".Login"
             android:exported="false" />
         <activity
-            android:name=".registro"
-            android:exported="false" />
-        <activity
             android:name=".Datos"
             android:exported="false" />
         <activity

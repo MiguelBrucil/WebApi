@@ -34,7 +34,7 @@ import okhttp3.ResponseBody;
 public class Reserva extends AppCompatActivity {
     CheckBox checkBoxSoloIda, checkBoxIdaVuelta;
     Spinner combosalida, combosal, combolle, tipo;
-    EditText v4, v5, v6, edV1total, editTextCedula6;
+    EditText v4, v5, v6, v9, V10, V11, V13, edV1total, editTextCedula6;
     int totalPasajeros = 0;
     Button btn1;
 
@@ -45,13 +45,17 @@ public class Reserva extends AppCompatActivity {
         setContentView(R.layout.activity_reserva);
 
         Button buttonCon = findViewById(R.id.buttonCon);
-        btn1=findViewById(R.id.button1);
+        btn1 = findViewById(R.id.button1);
         checkBoxSoloIda = findViewById(R.id.checkBoxSoloIda);
         checkBoxIdaVuelta = findViewById(R.id.checkBoxIdaVuelta);
         combosalida = findViewById(R.id.spinnerRango);
         combosal = findViewById(R.id.spinnerClaseVuelo);
         combolle = findViewById(R.id.spinnerClaseVuelo2);
         v4 = findViewById(R.id.editTextCedula2);
+        V13 = findViewById(R.id.editTextCedula5);
+        v9 = findViewById(R.id.editTextCedula);
+        V10 = findViewById(R.id.editTextCedula3);
+        V11 = findViewById(R.id.editTextCedula4);
         edV1total = findViewById(R.id.edV1total);
         editTextCedula6 = findViewById(R.id.editTextCedula6);
 
@@ -107,6 +111,7 @@ public class Reserva extends AppCompatActivity {
         deshabilitarEdicionEditTextCedula2();
         deshabilitarEdicionEditText();
         deshabilitarEdiciontotal();
+        //ConsumirApiReserava();
 
         buttonCon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +119,15 @@ public class Reserva extends AppCompatActivity {
                 multiplicarYMostrarResultado();
             }
         });
-    }
+
+    btn1.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Consumirreserva();
+        }
+    });
+}
+
 
     private void multiplicarYMostrarResultado() {
         String valorStr = edV1total.getText().toString();
@@ -131,6 +144,67 @@ public class Reserva extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Ingrese un número válido en edV1total", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+    public void Consumirreserva() {
+        String cedula = v9.getText().toString();
+        String nombre = V10.getText().toString();
+        String apellido = V11.getText().toString();
+        String telefono = V13.getText().toString();
+        String clase = combosalida.getSelectedItem().toString();
+        String salida = combosal.getSelectedItem().toString();
+        String llegada = combolle.getSelectedItem().toString();
+        String nPasajeros = edV1total.getText().toString();
+        String fechaReservacion = v4.getText().toString();
+        String total = editTextCedula6.getText().toString();
+
+        // Validar que todos los campos estén llenos
+        if (cedula.isEmpty() || nombre.isEmpty() || apellido.isEmpty() || telefono.isEmpty() || clase.isEmpty() || salida.isEmpty() || llegada.isEmpty() || nPasajeros.isEmpty() || fechaReservacion.isEmpty() || total.isEmpty()) {
+            Toast.makeText(Reserva.this, "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show();
+            return; // Salir del método si algún campo está vacío
+        }
+
+        String url = "http://192.168.10.112/webPro/webapi.php?op=insertarReserva&Cedula=" + cedula + "&Nombre=" + nombre + "&Apellido=" + apellido + "&Telefono=" + telefono + "&Clase=" + clase + "&Salida=" + salida + "&Llegada=" + llegada + "&NPasajeros=" + nPasajeros + "&FechaReservacion=" + fechaReservacion + "&Total=" + total;
+
+        OkHttpClient cliente = new OkHttpClient();
+        Request get = new Request.Builder().url(url).build();
+
+        cliente.newCall(get).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(Reserva.this, "Fallo la conexión", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    ResponseBody responseBody = response.body();
+                    if (response.isSuccessful()) {
+                        final String respuesta = responseBody.string();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(Reserva.this, "Reserva realizada exitosamente", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(Reserva.this, "Cédula incorrecta", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                } catch (final Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
     }
 
 
@@ -182,6 +256,8 @@ public class Reserva extends AppCompatActivity {
         });
     }
 
+
+
     public void ConsumirApiSal() {
         String url = "http://192.168.10.112/webPRO/webapi.php?op=sal";
 
@@ -229,6 +305,7 @@ public class Reserva extends AppCompatActivity {
         });
     }
 
+
     public void ConsumirLlegada() {
         String url = "http://192.168.10.112/webPRO/webapi.php?op=llegada";
 
@@ -245,6 +322,7 @@ public class Reserva extends AppCompatActivity {
                     }
                 });
             }
+
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
@@ -274,7 +352,9 @@ public class Reserva extends AppCompatActivity {
                 }
             }
         });
+
     }
+
 
     public void mostrarFechaActual() {
         Calendar calendar = Calendar.getInstance();
@@ -294,5 +374,6 @@ public class Reserva extends AppCompatActivity {
     public void deshabilitarEdiciontotal() {
         editTextCedula6.setEnabled(false);
     }
-    
+
+
 }
