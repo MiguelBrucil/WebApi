@@ -31,7 +31,7 @@ public class Datos extends AppCompatActivity {
     }
 
     private void consumirApi() {
-        String url = "http://192.168.10.114/webPRO/webapi.php?op=lista";
+        String url = "http://192.168.10.112/webPRO/webapi.php?op=lista";
         OkHttpClient cliente = new OkHttpClient();
         Request get = new Request.Builder().url(url).build();
 

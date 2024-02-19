@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -32,30 +33,56 @@ import okhttp3.ResponseBody;
 
 public class Reserva extends AppCompatActivity {
     CheckBox checkBoxSoloIda, checkBoxIdaVuelta;
-    Spinner combosalida, combosal, combolle,tipo;
-    EditText v4, v5, v6;
+    Spinner combosalida, combosal, combolle, tipo;
+    EditText v4, v5, v6, edV1total, editTextCedula6;
+    int totalPasajeros = 0;
+    Button btn1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserva);
 
+        Button buttonCon = findViewById(R.id.buttonCon);
+        btn1=findViewById(R.id.button1);
         checkBoxSoloIda = findViewById(R.id.checkBoxSoloIda);
         checkBoxIdaVuelta = findViewById(R.id.checkBoxIdaVuelta);
         combosalida = findViewById(R.id.spinnerRango);
         combosal = findViewById(R.id.spinnerClaseVuelo);
         combolle = findViewById(R.id.spinnerClaseVuelo2);
-        tipo=findViewById(R.id.spinnerRangoPasajeros);
         v4 = findViewById(R.id.editTextCedula2);
+        edV1total = findViewById(R.id.edV1total);
+        editTextCedula6 = findViewById(R.id.editTextCedula6);
+
+        Button btnIncrementar = findViewById(R.id.btnMas);
+        Button btnDecrementar = findViewById(R.id.btnMenos);
+
+        btnIncrementar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                totalPasajeros++;
+                edV1total.setText(String.valueOf(totalPasajeros));
+            }
+        });
+
+        btnDecrementar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (totalPasajeros > 0) {
+                    totalPasajeros--;
+                    edV1total.setText(String.valueOf(totalPasajeros));
+                }
+            }
+        });
+
         checkBoxSoloIda.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    // Si checkBoxSoloIda se marca, desmarcar checkBoxIdaVuelta y deshabilitarlo
                     checkBoxIdaVuelta.setChecked(false);
                     checkBoxIdaVuelta.setEnabled(false);
                 } else {
-                    // Si checkBoxSoloIda se desmarca, habilitar checkBoxIdaVuelta
                     checkBoxIdaVuelta.setEnabled(true);
                 }
             }
@@ -65,28 +92,51 @@ public class Reserva extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    // Si checkBoxIdaVuelta se marca, desmarcar checkBoxSoloIda y deshabilitarlo
                     checkBoxSoloIda.setChecked(false);
                     checkBoxSoloIda.setEnabled(false);
                 } else {
-                    // Si checkBoxIdaVuelta se desmarca, habilitar checkBoxSoloIda
                     checkBoxSoloIda.setEnabled(true);
                 }
             }
         });
 
-
-
         ConsumirApiSalida();
         ConsumirApiSal();
         ConsumirLlegada();
-        cargarDatosSpinner();
         mostrarFechaActual();
         deshabilitarEdicionEditTextCedula2();
+        deshabilitarEdicionEditText();
+        deshabilitarEdiciontotal();
+
+        buttonCon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                multiplicarYMostrarResultado();
+            }
+        });
     }
 
+    private void multiplicarYMostrarResultado() {
+        String valorStr = edV1total.getText().toString();
+        if (!valorStr.isEmpty()) {
+            try {
+                double valor = Double.parseDouble(valorStr);
+                double resultado = valor * 15.50;
+
+                if (checkBoxIdaVuelta.isChecked()) {
+                    resultado *= 2;
+                }
+                editTextCedula6.setText(String.valueOf(resultado));
+            } catch (NumberFormatException e) {
+                Toast.makeText(getApplicationContext(), "Ingrese un número válido en edV1total", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+
     public void ConsumirApiSalida() {
-        String url = "http://192.168.0.183/webPRO/webapi.php?op=salida";
+        String url = "http://192.168.10.112/webPRO/webapi.php?op=salida";
 
         OkHttpClient cliente = new OkHttpClient();
         Request get = new Request.Builder().url(url).build();
@@ -108,18 +158,14 @@ public class Reserva extends AppCompatActivity {
                     ResponseBody responseBody = response.body();
                     if (response.isSuccessful()) {
                         final String respuesta = responseBody.string();
-                        // Utilizamos una expresión regular para encontrar el texto entre comillas
                         Pattern pattern = Pattern.compile("\"([^\"]*)\"");
                         Matcher matcher = pattern.matcher(respuesta);
                         List<String> datos = new ArrayList<>();
-                        // Iteramos sobre las coincidencias y agregamos los datos a la lista
                         while (matcher.find()) {
                             datos.add(matcher.group(1));
                         }
-                        // Creamos un ArrayAdapter y lo configuramos con los datos obtenidos
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(Reserva.this, android.R.layout.simple_spinner_item, datos);
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        // Asignamos el adaptador al Spinner
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -136,9 +182,8 @@ public class Reserva extends AppCompatActivity {
         });
     }
 
-
     public void ConsumirApiSal() {
-        String url = "http://192.168.0.183/webPRO/webapi.php?op=sal";
+        String url = "http://192.168.10.112/webPRO/webapi.php?op=sal";
 
         OkHttpClient cliente = new OkHttpClient();
         Request get = new Request.Builder().url(url).build();
@@ -160,18 +205,14 @@ public class Reserva extends AppCompatActivity {
                     ResponseBody responseBody = response.body();
                     if (response.isSuccessful()) {
                         final String respuesta = responseBody.string();
-                        // Utilizamos una expresión regular para encontrar el texto entre comillas
                         Pattern pattern = Pattern.compile("\"([^\"]*)\"");
                         Matcher matcher = pattern.matcher(respuesta);
                         List<String> datos = new ArrayList<>();
-                        // Iteramos sobre las coincidencias y agregamos los datos a la lista
                         while (matcher.find()) {
                             datos.add(matcher.group(1));
                         }
-                        // Creamos un ArrayAdapter y lo configuramos con los datos obtenidos
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(Reserva.this, android.R.layout.simple_spinner_item, datos);
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        // Asignamos el adaptador al Spinner
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -188,9 +229,8 @@ public class Reserva extends AppCompatActivity {
         });
     }
 
-
     public void ConsumirLlegada() {
-        String url = "http://192.168.0.183/webPRO/webapi.php?op=llegada";
+        String url = "http://192.168.10.112/webPRO/webapi.php?op=llegada";
 
         OkHttpClient cliente = new OkHttpClient();
         Request get = new Request.Builder().url(url).build();
@@ -212,18 +252,14 @@ public class Reserva extends AppCompatActivity {
                     ResponseBody responseBody = response.body();
                     if (response.isSuccessful()) {
                         final String respuesta = responseBody.string();
-                        // Utilizamos una expresión regular para encontrar el texto entre comillas
                         Pattern pattern = Pattern.compile("\"([^\"]*)\"");
                         Matcher matcher = pattern.matcher(respuesta);
                         List<String> datos = new ArrayList<>();
-                        // Iteramos sobre las coincidencias y agregamos los datos a la lista
                         while (matcher.find()) {
                             datos.add(matcher.group(1));
                         }
-                        // Creamos un ArrayAdapter y lo configuramos con los datos obtenidos
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(Reserva.this, android.R.layout.simple_spinner_item, datos);
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        // Asignamos el adaptador al Spinner
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -239,29 +275,24 @@ public class Reserva extends AppCompatActivity {
             }
         });
     }
-    public void cargarDatosSpinner() {
-        String[] opColor = {
-                "NIÑO",
-                "TERCERA EDAD",
-                "ADULTO"
-        };
-        ArrayAdapter<String> coloresVehiculo = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, opColor);
-        tipo.setAdapter(coloresVehiculo);
-    }
+
     public void mostrarFechaActual() {
-        // Obtener la fecha actual
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-
-        // Formatear la fecha
         String fechaActual = String.format(Locale.getDefault(), "%02d/%02d/%04d", dayOfMonth, month + 1, year);
-
-        // Establecer la fecha formateada en el EditText
         v4.setText(fechaActual);
     }
+
     public void deshabilitarEdicionEditTextCedula2() {
-        v4.setEnabled(false); // Deshabilitar la edición del EditText
+        v4.setEnabled(false);
     }
+    public void deshabilitarEdicionEditText() {
+        edV1total.setEnabled(false);
+    }
+    public void deshabilitarEdiciontotal() {
+        editTextCedula6.setEnabled(false);
+    }
+    
 }

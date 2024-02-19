@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">WebApi</string>
+    <string name="app_name">RESERVA DE TICKETS</string>
+
+    <string-array name="opciones_pasajero">
+        <item>NIÑO</item>
+        <item>TERCERA EDAD</item>
+        <item>ADULTO</item>
+    </string-array>
+
 </resources>

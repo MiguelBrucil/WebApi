@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Checkboxs para tipo de viaje -->
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -63,14 +63,43 @@
                     android:layout_marginLeft="20dp"
                     android:text="Ida y Vuelta" />
             </LinearLayout>
-
-            <!-- Dropdown para rango de pasajeros -->
             <Spinner
-                android:id="@+id/spinnerRangoPasajeros"
+                android:id="@+id/spinnerTipoPasajero"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="20dp"
-                android:entries="@array/rango_pasajeros" />
+                android:layout_height="wrap_content"
+                android:entries="@array/opciones_pasajero" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnMenos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-" />
+
+                <EditText
+                    android:id="@+id/edV1total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0" />
+
+                <Button
+                    android:id="@+id/btnMas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+" />
+            </LinearLayout>
+
+
+<!--            <Spinner-->
+<!--                android:id="@+id/spinnerRangoPasajeros"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="45dp"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:entries="@array/rango_pasajeros" />-->
 
 
             <LinearLayout
@@ -99,12 +128,7 @@
                     android:text="+" />
             </LinearLayout>
 
-            <EditText
-                android:id="@+id/edV1total"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:hint="TOTAL" />
+
 
             <Spinner
                 android:id="@+id/spinnerRango"
@@ -121,12 +145,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:hint="Cédula" />
-
-            <Button
-                android:id="@+id/buttonCon"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Consultar" />
 
             <EditText
                 android:id="@+id/editTextCedula3"
@@ -182,6 +200,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:hint="TOTAL A CANCELAR" />
+
+            <Button
+                android:id="@+id/buttonCon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Consultar" />
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="GUARDAR" />
 
         </LinearLayout>
 
