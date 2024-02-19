@@ -58,7 +58,7 @@ public class Ingreso extends AppCompatActivity {
     public void ConsumirApi(){
 
 //       String url="http://192.168.10.114/ws/webapi.php?op=validar&usuario="+v1.getText()+"&contrasenia="+v2.getText();
-        String url="http://192.168.10.112/ws/webapi.php?op=login&usuario="+v1.getText()+"&contrasenia="+v2.getText();
+        String url="http://192.168.1.11/ws/webapi.php?op=login&usuario="+v1.getText()+"&contrasenia="+v2.getText();
 //        String url="http://192.168.10.114/ws/webapi.php?op=lista";
         OkHttpClient cliente=new OkHttpClient();
 

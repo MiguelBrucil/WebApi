@@ -71,7 +71,7 @@ public class Login extends AppCompatActivity {
 
 //       String url="http://192.168.10.114/ws/webapi.php?op=validar&usuario="+v1.getText()+"&contrasenia="+v2.getText();
         //String url="http://192.168.10.114/ws/webapi.php?op=login&usuario="+v1.getText()+"&contrasenia="+v2.getText();
-        String url = "http://192.168.10.112/webPro/webapi.php?op=insertar&cedula=" + v1.getText() + "&nombre=" + v2.getText() + "&apellido=" + v3.getText() + "&fecha=" + v4.getText() + "&telefono=" + v5.getText() + "&correo=" + v6.getText() + "&usuario=" + v7.getText() + "&contrasenia=" + v8.getText();
+        String url = "http://192.168.1.11/webPro/webapi.php?op=insertar&cedula=" + v1.getText() + "&nombre=" + v2.getText() + "&apellido=" + v3.getText() + "&fecha=" + v4.getText() + "&telefono=" + v5.getText() + "&correo=" + v6.getText() + "&usuario=" + v7.getText() + "&contrasenia=" + v8.getText();
 //        String url="http://192.168.10.114/ws/webapi.php?op=lista";
         OkHttpClient cliente = new OkHttpClient();
 
